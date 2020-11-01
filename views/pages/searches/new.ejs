@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../public/styles/style.css">
     <title>Document</title>
 </head>
 <body>
 
+       <p> Welcome to New Page </p>
+    <form action="/searches" method="POST">
 
-    <form action="/searches/new" method="POST">
+        <label for="searchBox">Search For Books</label><br><br>
+        <input type="text" id="searchBox" name="searchBox"><br>
 
-        <label for="booksTitel">Enter The Title Or Author Of The Book</label><br><br>
-        <input type="text" id="booksTitel" name="booksTitel"><br>
+        <label for="title">By Title</label><br>
+        <input type="radio" id="title" name="searchBy" value="title"><br>
 
-        <label for="male">Male</label><br>
-        <input type="radio" id="male" name="gender" value="male"><br>
+        <label for="author">By Author</label><br>
+        <input type="radio" id="author" name="searchBy" value="Author"><br>
 
-        <label for="female">Female</label><br>
-        <input type="radio" id="female" name="gender" value="female"><br>
      
-
-
-        <input type="submit" value="Submit"><br>
+        <input id="searchBtn" type="submit" value="Search the Google Books API"><br>
       </form> 
     
 </body>

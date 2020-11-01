@@ -20,12 +20,17 @@ app.set('view engine', 'ejs');
 app.get('/hello',homePage);
 
 
-
 function homePage(req,res){
 
   res.render('pages/index');
 
 }
+
+app.get('/searches/new', (request, response) => {
+  // console.log(request.body);
+
+  response.render('pages/searches/new');
+});
 
 
 

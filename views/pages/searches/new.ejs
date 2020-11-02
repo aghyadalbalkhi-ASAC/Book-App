@@ -8,20 +8,39 @@
 </head>
 <body>
 
+    <header>
+
+        <nav id="navBar">Best Books!</nav>
+        <div id="div_nav">Search By Title or Author</div>
+    
+    <div id="side-nav">
+            <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a href="#">About</a>
+                <a href="#">Services</a>
+                <a href="#">Clients</a>
+                <a href="#">Contact</a>
+              </div>
+              <span style="font-size:45px;  cursor:pointer; color:white;width: 100px;" onclick="openNav()">&#9776; </span>
+            </div>
+        </header>
+
        <p> Welcome to New Page </p>
-    <form action="/searches" method="POST">
-
-        <label for="searchBox">Search For Books</label><br><br>
+       <form action="/searches" method="POST">
+       
+        <!-- <label for="searchBox">Search For Books</label><br><br> -->
         <input type="text" id="searchBox" name="searchBox"><br>
-
+        
         <label for="title">By Title</label><br>
         <input type="radio" id="title" name="searchBy" value="title"><br>
-
+        
         <label for="author">By Author</label><br>
         <input type="radio" id="author" name="searchBy" value="Author"><br>
 
      
         <input id="searchBtn" type="submit" value="Search the Google Books API"><br>
+
+    
       </form> 
    
 </body>

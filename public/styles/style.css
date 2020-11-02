@@ -55,10 +55,7 @@
       padding-left: 2%;
   }
 
-  p{
-      font-size: 40px;
-      color: red;
-  }
+ 
 
   #div_nav{
       height: 50px;
@@ -74,4 +71,24 @@
       top: 4%;
       z-index: 5;
       left: 93%;
+  }
+
+  body{
+      background-color: #D8D8D8;
+  }
+
+  form {
+      width: 30%;
+      margin-left: 30%;
+      align-items: center;
+      padding-left: 100px;
+      
+      height: 400px;
+  }
+
+  #searchBtn{
+      width: 300px;
+      height: 50px;
+      color: white;
+      background-color: black;
   }

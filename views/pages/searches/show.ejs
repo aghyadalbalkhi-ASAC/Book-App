@@ -34,9 +34,40 @@
     
     <h3><%=  element.author %></h3>
 
+    <p><%= element.isbn %> </p>
     <p><%= element.description %> </p>
 </div>
-<% }); %>
+
+
+
+<form action="/books" method="POST">
+    <label for="title">Book Title:</label><br>
+    <input type="text" id="title" name="title" value="<%=  element.title %>"><br><br>
+
+    <label for="author">Book author:</label><br>
+    <input type="text" id="author" name="author" value="<%=  element.author %>"><br><br>
+
+    <label for="isbn">Book isbn:</label><br>
+    <input type="text" id="isbn" name="isbn" value="<%=  element.isbn %>"><br><br>
+
+
+
+    <label for="image_url">Book Img:</label><br>
+    <input type="text" id="image_url" name="image_url" value="<%= element.img %>"><br><br>
+
+    <label for="descr">Book description:</label><br>
+
+    <textarea id="descr" name="descr" rows="4" cols="50">
+        <%= element.description %>
+        </textarea><br><br>
+
+
+
+    <input type="submit" value="Add To Collection">
+  </form>
+
+  <% }); %>
+
 
 <script src="../../../public/styles/js/app.js"></script>
 </body>

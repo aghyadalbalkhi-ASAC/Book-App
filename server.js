@@ -9,7 +9,7 @@ const client = new pg.Client(DATABASE_URL);
 
 
 
-
+let countIntoDB=0;
 
 
 // const { pathToFileURL } = require('url');
@@ -36,6 +36,7 @@ app.get('/hello', testPage);
 app.get('/searches/new', getBooks);
 app.post('/searches', showResult);
 app.get ('/books/:id', HandellBookID);
+app.post ('/books', HandellBooks);
 
 
 function HandellBookID(req, res) {
@@ -55,7 +56,26 @@ function HandellBookID(req, res) {
 
 }
 
+function HandellBooks(req, res){
 
+  let newBookAdded = req.body;
+  let statement = `INSERT INTO books (title, Author, isbn, image_url, descr) VALUES ($1,$2,$3,$4,$5);`;
+  let values = [newBookAdded.title,newBookAdded.author,newBookAdded.isbn,newBookAdded.image_url,newBookAdded.descr];
+
+  client.query(statement,values).then( data =>{
+
+    console.log('Helllllo Diana book inserted ');
+    console.log(data);
+    res.redirect(`/books/${countIntoDB+1}`);
+
+  }).catch((error) => {
+    console.log('error happend in the HandellBookID SQL',error);
+  });
+
+
+
+
+}
 
 function testPage(req, res) {
 
@@ -68,14 +88,15 @@ function testPage(req, res) {
 
 function homePage(req, res) {
 
-  let statment = `SELECT title,Author,isbn,image_url,descr FROM books;`;
+  let statment = `SELECT id,title,Author,isbn,image_url,descr FROM books;`;
   client.query(statment).then(data => {
     let dataBook = data.rows;
     let totalDBbooks = data.rowCount;
+    countIntoDB = data.rowCount;
     let stored = dataBook.map(bookObj => {
       return bookObj;
     });
-    // res.send(stored);
+    console.log(stored);
     res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
   }).catch(() => {
     console.log('error happend in the homePage');
@@ -118,15 +139,14 @@ function Book(info) {
     this.img = 'https://i.imgur.com/J5LVHEL.jpg'
   } else {
     if(!(/https:\/\//.test(info.volumeInfo.imageLinks.thumbnail))){
-      console.log(info.volumeInfo.imageLinks.thumbnail);
       this.img ='https'+info.volumeInfo.imageLinks.thumbnail.slice(4);
-      console.log('after',this.img);
     }else{
       this.img = info.volumeInfo.imageLinks.thumbnail;
     }
   }
   this.title = info.volumeInfo.title;
   this.author = info.volumeInfo.authors;
+  this.isbn = info.volumeInfo.industryIdentifiers[0].type +info.volumeInfo.industryIdentifiers[0].identifier;
   this.description = info.volumeInfo.description;
 }
 

@@ -3,6 +3,15 @@
 require('dotenv').config();
 const express = require('express');
 let superagent = require('superagent');
+let pg = require('pg');
+const DATABASE_URL = process.env.DATABASE_URL;
+const client = new pg.Client(DATABASE_URL);
+
+
+
+
+
+
 // const { pathToFileURL } = require('url');
 
 const app = express();
@@ -21,13 +30,36 @@ app.use('/public', express.static('public'));
 // Set the view engine for templating
 app.set('view engine', 'ejs');
 
-app.get('/hello', homePage);
+app.get('/hello', testPage);
+
+
+function testPage(req, res) {
+
+  // res.render('pages/index');
+
+
+}
+
+
+app.get('/', homePage);
 
 
 function homePage(req, res) {
 
-  res.render('pages/index');
+  let statment = `SELECT title,Author,isbn,image_url,descr FROM books;`;
+  client.query(statment).then(data => {
+    let dataBook = data.rows;
+    let totalDBbooks = data.rowCount;
+    let stored = dataBook.map(bookObj => {
+      return bookObj;
+    });
+    // res.send(stored);
+     res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
+  }).catch(() => {
+    console.log('error happend in the homePage');
+  });
 
+  // res.render('pages/index');
 }
 
 app.get('/searches/new', getBooks);
@@ -74,4 +106,12 @@ function Book(info) {
 
 
 
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+client.connect().then(() => {
+  app.listen(PORT, () => {
+    console.log(`app is listning on port${PORT}`);
+  });
+}).catch(err => {
+  console.log('sorry..  an error occured', err);
+});
+
+

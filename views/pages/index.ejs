@@ -10,7 +10,7 @@
     <header>
 
         <nav id="navBar">Best Books!</nav>
-        <div id="div_nav">Search By Title or Author</div>
+        <div id="div_nav">Saved Books</div>
     
     <div id="side-nav">
             <div id="mySidenav" class="sidenav">
@@ -23,7 +23,23 @@
               <span style="font-size:45px;  cursor:pointer; color:white;width: 100px;" onclick="openNav()">&#9776; </span>
             </div>
         </header>
-    <p>welocam Diana</p>
+    
+             <h4> <%=  count %> </h4>
+
+        <% DBbooks.forEach((element, ind) => { %>
+   
+            <div class="child" id="<%= element.id %>"> 
+              <img src="<%= element.image_url %>" alt="">
+          
+              <h2> <%=  element.title %> </h2>
+              
+              <h3><%=  element.author %></h3>
+
+              <input id="detailsBtn" type="submit" value="Show Details"><br>
+          
+              
+          </div>
+          <% }); %>
 
     <script src="public/styles/js/app.js"></script>
 </body>

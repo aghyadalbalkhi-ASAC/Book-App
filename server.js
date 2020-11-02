@@ -30,18 +30,40 @@ app.use('/public', express.static('public'));
 // Set the view engine for templating
 app.set('view engine', 'ejs');
 
+
+app.get('/', homePage);
 app.get('/hello', testPage);
+app.get('/searches/new', getBooks);
+app.post('/searches', showResult);
+app.get ('/books/:id', HandellBookID);
+
+
+function HandellBookID(req, res) {
+
+  let recordDetails= req.params.id;
+  let stetment = `SELECT * FROM books WHERE id=${recordDetails};`;
+
+  client.query(stetment).then( data =>{
+
+    res.render('pages/books/show', { singleBook : data.rows[0] });
+
+  }).catch((error) => {
+    console.log('error happend in the HandellBookID SQL',error);
+  });
+
+ // res.send(req.params.id);
+
+}
+
 
 
 function testPage(req, res) {
 
   // res.render('pages/index');
 
-
 }
 
 
-app.get('/', homePage);
 
 
 function homePage(req, res) {
@@ -54,7 +76,7 @@ function homePage(req, res) {
       return bookObj;
     });
     // res.send(stored);
-     res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
+    res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
   }).catch(() => {
     console.log('error happend in the homePage');
   });
@@ -62,17 +84,17 @@ function homePage(req, res) {
   // res.render('pages/index');
 }
 
-app.get('/searches/new', getBooks);
+
 
 function getBooks(req, res) {
   // console.log(request.body);
   res.render('pages/searches/new');
 }
 
-app.post('/searches', showResult)
+
 
 function showResult(req, res) {
- 
+
   let recievedData = req.body;
   let url = `https://www.googleapis.com/books/v1/volumes?q=${recievedData.searchBox}+${recievedData.searchBy}`;
   superagent.get(url).then(bookResult => {

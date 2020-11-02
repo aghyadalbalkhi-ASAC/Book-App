@@ -31,7 +31,7 @@ app.use('/public', express.static('public'));
 app.set('view engine', 'ejs');
 
 app.get('/hello', testPage);
-
+app.get('/', homePage);
 
 function testPage(req, res) {
 
@@ -41,7 +41,6 @@ function testPage(req, res) {
 }
 
 
-app.get('/', homePage);
 
 
 function homePage(req, res) {
@@ -54,7 +53,7 @@ function homePage(req, res) {
       return bookObj;
     });
     // res.send(stored);
-     res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
+    res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
   }).catch(() => {
     console.log('error happend in the homePage');
   });

@@ -40,7 +40,7 @@ function getBooks(req, res) {
 app.post('/searches', showResult)
 
 function showResult(req, res) {
-  console.log(req.body);
+ 
   let recievedData = req.body;
   let url = `https://www.googleapis.com/books/v1/volumes?q=${recievedData.searchBox}+${recievedData.searchBy}`;
   superagent.get(url).then(bookResult => {
@@ -48,7 +48,7 @@ function showResult(req, res) {
     let selctedBooksArr = booksItems.map(info => {
       return new Book(info);
     });
-    console.log(selctedBooksArr);
+
     res.render('pages/searches/show', { booksItems: selctedBooksArr });
   }).catch(error => {
     console.log('Sorry .. an error Occured in Google API ', error);
@@ -63,7 +63,13 @@ function Book(info) {
   if (info.volumeInfo.imageLinks === undefined) {
     this.img = 'https://i.imgur.com/J5LVHEL.jpg'
   } else {
-    this.img = info.volumeInfo.imageLinks.thumbnail;
+    if(!(/https:\/\//.test(info.volumeInfo.imageLinks.thumbnail))){
+      console.log(info.volumeInfo.imageLinks.thumbnail);
+      this.img ='https'+info.volumeInfo.imageLinks.thumbnail.slice(4);
+      console.log('after',this.img);
+    }else{
+      this.img = info.volumeInfo.imageLinks.thumbnail;
+    }
   }
   this.title = info.volumeInfo.title;
   this.author = info.volumeInfo.authors;

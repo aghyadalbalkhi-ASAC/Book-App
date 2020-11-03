@@ -5,6 +5,9 @@
 .AppleDouble
 .LSOverride
 
+### Env ###
+.env
+
 ### Linux ###
 *~
 

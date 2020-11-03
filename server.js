@@ -10,7 +10,8 @@ let methodOverride = require('method-override');
 
 
 
-let countIntoDB=0;
+let countIntoDB=1;
+let contupdated =0;
 
 
 // const { pathToFileURL } = require('url');
@@ -46,8 +47,9 @@ function bookDelete(req, res){
   let itemD = recievedDelet.ItemDeleted;
   let statement =`DELETE FROM books WHERE id=${itemD};`;
   client.query(statement).then(data =>{
-    res.redirect(`/`);
     console.log('item deleted ... ' + itemD );
+    res.redirect(`/`);
+   
   }).catch((error) => {
     console.log('error happend when deleteing data...',error);
   });
@@ -67,7 +69,7 @@ function bookUpdate(req,res){
 }
 
 function HandellBookID(req, res) {
-
+ console.log('HandellBookID',req.params.id );
   let recordDetails= req.params.id;
   let stetment = `SELECT * FROM books WHERE id=${recordDetails};`;
 
@@ -84,14 +86,12 @@ function HandellBookID(req, res) {
 }
 
 function HandellBooks(req, res){
-
   let newBookAdded = req.body;
-  let statement = `INSERT INTO books (title, Author, isbn, image_url, descr) VALUES ($1,$2,$3,$4,$5);`;
+  let statement = `INSERT INTO books (title, Author, isbn, image_url, descr) VALUES ($1,$2,$3,$4,$5) RETURNING id ;`;
   let values = [newBookAdded.title,newBookAdded.author,newBookAdded.isbn,newBookAdded.image_url,newBookAdded.descr];
-
   client.query(statement,values).then( data =>{
-    console.log('Helllllo Diana book inserted ');
-    res.redirect(`/books/${countIntoDB+1}`);
+    console.log(data.rows[0].id,'insid the book/is');
+    res.redirect(`/books/${data.rows[0].id}`);
 
   }).catch((error) => {
     console.log('error happend in the HandellBookID SQL',error);
@@ -110,18 +110,17 @@ function testPage(req, res) {
 
 
 
-
 function homePage(req, res) {
 
   let statment = `SELECT id,title,Author,isbn,image_url,descr FROM books;`;
   client.query(statment).then(data => {
     let dataBook = data.rows;
     let totalDBbooks = data.rowCount;
-    countIntoDB = data.rowCount;
+    countIntoDB = (data.rows[data.rows.length-1].id);
+    console.log('Hiiiiiiiii insid the homePage/is');
     let stored = dataBook.map(bookObj => {
       return bookObj;
     });
-  
     res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
   }).catch(() => {
     console.log('error happend in the homePage');
@@ -156,7 +155,6 @@ function showResult(req, res) {
 }
 
 
-
 // Books constructor\\
 
 function Book(info) {
@@ -174,9 +172,6 @@ function Book(info) {
   this.isbn = info.volumeInfo.industryIdentifiers ?info.volumeInfo.industryIdentifiers[0].type +info.volumeInfo.industryIdentifiers[0].identifier :'No ISBN Found';
   this.description = info.volumeInfo.description ? info.volumeInfo.description : 'No Description Found';
 }
-
-
-
 
 
 client.connect().then(() => {

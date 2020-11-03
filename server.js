@@ -6,6 +6,7 @@ let superagent = require('superagent');
 let pg = require('pg');
 const DATABASE_URL = process.env.DATABASE_URL;
 const client = new pg.Client(DATABASE_URL);
+let methodOverride = require('method-override');
 
 
 
@@ -29,7 +30,7 @@ app.use('/public', express.static('public'));
 
 // Set the view engine for templating
 app.set('view engine', 'ejs');
-
+app.use(methodOverride('_method'));
 
 app.get('/', homePage);
 app.get('/hello', testPage);
@@ -37,7 +38,33 @@ app.get('/searches/new', getBooks);
 app.post('/searches', showResult);
 app.get ('/books/:id', HandellBookID);
 app.post ('/books', HandellBooks);
+app.put ('/books/:id', bookUpdate);
+app.delete ('/books/:id', bookDelete);
 
+function bookDelete(req, res){
+  let recievedDelet = req.body;
+  let itemD = recievedDelet.ItemDeleted;
+  let statement =`DELETE FROM books WHERE id=${itemD};`;
+  client.query(statement).then(data =>{
+    res.redirect(`/`);
+    console.log('item deleted ... ' + itemD );
+  }).catch((error) => {
+    console.log('error happend when deleteing data...',error);
+  });
+}
+
+
+function bookUpdate(req,res){
+  let recievedUpdate = req.body;
+  let statement = `UPDATE books SET title =$1, Author=$2, isbn=$3, image_url=$4, descr=$5  WHERE id=$6;`;
+  let values = [recievedUpdate.title, recievedUpdate.author, recievedUpdate.isbn, recievedUpdate.image_url, recievedUpdate.descr, recievedUpdate.id];
+  client.query(statement, values).then( data =>{
+    res.redirect(`/books/${recievedUpdate.id}`);
+    console.log('item updated ' + recievedUpdate.id);
+  }).catch((error) => {
+    console.log('error happend in the updated data...',error);
+  });
+}
 
 function HandellBookID(req, res) {
 
@@ -63,9 +90,7 @@ function HandellBooks(req, res){
   let values = [newBookAdded.title,newBookAdded.author,newBookAdded.isbn,newBookAdded.image_url,newBookAdded.descr];
 
   client.query(statement,values).then( data =>{
-
     console.log('Helllllo Diana book inserted ');
-    console.log(data);
     res.redirect(`/books/${countIntoDB+1}`);
 
   }).catch((error) => {
@@ -96,7 +121,7 @@ function homePage(req, res) {
     let stored = dataBook.map(bookObj => {
       return bookObj;
     });
-    console.log(stored);
+  
     res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
   }).catch(() => {
     console.log('error happend in the homePage');

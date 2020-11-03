@@ -1,0 +1,27 @@
+<form  action="/books/<%= singleBook.id %>?_method=PUT" method="POST">
+    
+  
+  <input style="display: none;" type="text" id="id" name="id" value="<%= singleBook.id %>"><br><br>
+
+
+    <label  for="title">Book Title:</label><br>
+    <input type="text" id="title" name="title" value="<%=  singleBook.title %>"><br><br>
+
+    <label  for="author">Book author:</label><br>
+    <input type="text" id="author" name="author" value="<%=  singleBook.author %>"><br><br>
+
+    <label  for="isbn">Book isbn:</label><br>
+    <input type="text" id="isbn" name="isbn" value="<%=  singleBook.isbn %>"><br><br>
+
+    <label   for="image_url">Book Img:</label><br>
+    <input type="text" id="image_url" name="image_url" value="<%= singleBook.image_url %>"><br><br>
+
+    <label for="descr">Book description:</label><br>
+
+    <textarea  id="descr" name="descr" rows="4" cols="50" >
+        <%= singleBook.descr %>
+        </textarea><br><br>
+
+        <input type="submit" value="Update">
+        
+      </form>

@@ -144,10 +144,10 @@ function Book(info) {
       this.img = info.volumeInfo.imageLinks.thumbnail;
     }
   }
-  this.title = info.volumeInfo.title;
-  this.author = info.volumeInfo.authors;
-  this.isbn = info.volumeInfo.industryIdentifiers[0].type +info.volumeInfo.industryIdentifiers[0].identifier;
-  this.description = info.volumeInfo.description;
+  this.title = info.volumeInfo.title ? info.volumeInfo.title : 'No Title Found';
+  this.author = info.volumeInfo.authors ?info.volumeInfo.authors :'No Authors Found' ;
+  this.isbn = info.volumeInfo.industryIdentifiers ?info.volumeInfo.industryIdentifiers[0].type +info.volumeInfo.industryIdentifiers[0].identifier :'No ISBN Found';
+  this.description = info.volumeInfo.description ? info.volumeInfo.description : 'No Description Found';
 }
 
 

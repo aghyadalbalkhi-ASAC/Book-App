@@ -9,7 +9,7 @@ const client = new pg.Client(DATABASE_URL);
 
 
 
-
+let countIntoDB=0;
 
 
 // const { pathToFileURL } = require('url');
@@ -30,31 +30,74 @@ app.use('/public', express.static('public'));
 // Set the view engine for templating
 app.set('view engine', 'ejs');
 
-app.get('/hello', testPage);
 
+app.get('/', homePage);
+app.get('/hello', testPage);
+app.get('/searches/new', getBooks);
+app.post('/searches', showResult);
+app.get ('/books/:id', HandellBookID);
+app.post ('/books', HandellBooks);
+
+
+function HandellBookID(req, res) {
+
+  let recordDetails= req.params.id;
+  let stetment = `SELECT * FROM books WHERE id=${recordDetails};`;
+
+  client.query(stetment).then( data =>{
+
+    res.render('pages/books/show', { singleBook : data.rows[0] });
+
+  }).catch((error) => {
+    console.log('error happend in the HandellBookID SQL',error);
+  });
+
+ // res.send(req.params.id);
+
+}
+
+function HandellBooks(req, res){
+
+  let newBookAdded = req.body;
+  let statement = `INSERT INTO books (title, Author, isbn, image_url, descr) VALUES ($1,$2,$3,$4,$5);`;
+  let values = [newBookAdded.title,newBookAdded.author,newBookAdded.isbn,newBookAdded.image_url,newBookAdded.descr];
+
+  client.query(statement,values).then( data =>{
+
+    console.log('Helllllo Diana book inserted ');
+    console.log(data);
+    res.redirect(`/books/${countIntoDB+1}`);
+
+  }).catch((error) => {
+    console.log('error happend in the HandellBookID SQL',error);
+  });
+
+
+
+
+}
 
 function testPage(req, res) {
 
   // res.render('pages/index');
 
-
 }
 
 
-app.get('/', homePage);
 
 
 function homePage(req, res) {
 
-  let statment = `SELECT title,Author,isbn,image_url,descr FROM books;`;
+  let statment = `SELECT id,title,Author,isbn,image_url,descr FROM books;`;
   client.query(statment).then(data => {
     let dataBook = data.rows;
     let totalDBbooks = data.rowCount;
+    countIntoDB = data.rowCount;
     let stored = dataBook.map(bookObj => {
       return bookObj;
     });
-    // res.send(stored);
-     res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
+    console.log(stored);
+    res.render('pages/index', { DBbooks : stored , count : totalDBbooks});
   }).catch(() => {
     console.log('error happend in the homePage');
   });
@@ -62,17 +105,17 @@ function homePage(req, res) {
   // res.render('pages/index');
 }
 
-app.get('/searches/new', getBooks);
+
 
 function getBooks(req, res) {
   // console.log(request.body);
   res.render('pages/searches/new');
 }
 
-app.post('/searches', showResult)
+
 
 function showResult(req, res) {
-  console.log(req.body);
+
   let recievedData = req.body;
   let url = `https://www.googleapis.com/books/v1/volumes?q=${recievedData.searchBox}+${recievedData.searchBy}`;
   superagent.get(url).then(bookResult => {
@@ -80,7 +123,7 @@ function showResult(req, res) {
     let selctedBooksArr = booksItems.map(info => {
       return new Book(info);
     });
-    console.log(selctedBooksArr);
+
     res.render('pages/searches/show', { booksItems: selctedBooksArr });
   }).catch(error => {
     console.log('Sorry .. an error Occured in Google API ', error);
@@ -95,11 +138,16 @@ function Book(info) {
   if (info.volumeInfo.imageLinks === undefined) {
     this.img = 'https://i.imgur.com/J5LVHEL.jpg'
   } else {
-    this.img = info.volumeInfo.imageLinks.thumbnail;
+    if(!(/https:\/\//.test(info.volumeInfo.imageLinks.thumbnail))){
+      this.img ='https'+info.volumeInfo.imageLinks.thumbnail.slice(4);
+    }else{
+      this.img = info.volumeInfo.imageLinks.thumbnail;
+    }
   }
-  this.title = info.volumeInfo.title;
-  this.author = info.volumeInfo.authors;
-  this.description = info.volumeInfo.description;
+  this.title = info.volumeInfo.title ? info.volumeInfo.title : 'No Title Found';
+  this.author = info.volumeInfo.authors ?info.volumeInfo.authors :'No Authors Found' ;
+  this.isbn = info.volumeInfo.industryIdentifiers ?info.volumeInfo.industryIdentifiers[0].type +info.volumeInfo.industryIdentifiers[0].identifier :'No ISBN Found';
+  this.description = info.volumeInfo.description ? info.volumeInfo.description : 'No Description Found';
 }
 
 

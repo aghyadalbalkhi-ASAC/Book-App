@@ -1,31 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../public/styles/style.css">
-    <title>Document</title>
-</head>
+  <%- include('../../layout/head') %>
 <body>
 
-    <header>
-
-        <nav id="navBar">Best Books!</nav>
-        <div id="div_nav">Search By Title or Author</div>
+    <%- include('../../layout/header') %>
     
-    <div id="side-nav">
-            <div id="mySidenav" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a href="#">About</a>
-                <a href="#">Services</a>
-                <a href="#">Clients</a>
-                <a href="#">Contact</a>
-              </div>
-              <span style="font-size:45px;  cursor:pointer; color:white;width: 100px;" onclick="openNav()">&#9776; </span>
-            </div>
-        </header>
-    
- <% booksItems.forEach((element, ind) => { %>
+    <% booksItems.forEach((element, ind) => { %>
    
   <div class="child" id="<%= ind %>"> 
     <img src="<%= element.img %>" alt="">
@@ -68,7 +48,8 @@
 
   <% }); %>
 
-
+<footer>
 <script src="../../../public/styles/js/app.js"></script>
+</footer>
 </body>
 </html>

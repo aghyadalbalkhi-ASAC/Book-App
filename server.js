@@ -37,9 +37,7 @@ function testPage(req, res) {
 
   // res.render('pages/index');
 
-
 }
-
 
 app.get('/', homePage);
 
@@ -72,7 +70,7 @@ function getBooks(req, res) {
 app.post('/searches', showResult)
 
 function showResult(req, res) {
- 
+
   let recievedData = req.body;
   let url = `https://www.googleapis.com/books/v1/volumes?q=${recievedData.searchBox}+${recievedData.searchBy}`;
   superagent.get(url).then(bookResult => {
@@ -86,7 +84,6 @@ function showResult(req, res) {
     console.log('Sorry .. an error Occured in Google API ', error);
   });
 }
-
 
 
 // Books constructor\\
@@ -107,9 +104,6 @@ function Book(info) {
   this.author = info.volumeInfo.authors;
   this.description = info.volumeInfo.description;
 }
-
-
-
 
 
 client.connect().then(() => {

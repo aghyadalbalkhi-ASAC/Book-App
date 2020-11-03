@@ -21,6 +21,8 @@
 
 <form  action="/books" method="POST">
   <div class="form_div" style="display: none;">
+
+    <input type="hidden" id="id" name="id" value="<%=  element.id %>"><br><br>
     <label  for="title">Book Title:</label><br>
     <input type="text" id="title" name="title" value="<%=  element.title %>"><br><br>
 

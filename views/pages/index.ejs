@@ -1,28 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="public/styles/style.css">
-</head>
+    <%- include('../layout/head') %>
 <body>
-    <header>
-
-        <nav id="navBar">Best Books!</nav>
-        <div id="div_nav">Saved Books</div>
-    
-    <div id="side-nav">
-            <div id="mySidenav" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a href="#">About</a>
-                <a href="#">Services</a>
-                <a href="#">Clients</a>
-                <a href="#">Contact</a>
-              </div>
-              <span style="font-size:45px;  cursor:pointer; color:white;width: 100px;" onclick="openNav()">&#9776; </span>
-            </div>
-        </header>
+    <%- include('../layout/header') %>
     
              <h4> <%=  count %> </h4>
 
@@ -35,7 +15,8 @@
               
               <h3><%=  element.author %></h3>
 
-              <input id="detailsBtn" type="submit" value="Show Details"><br>
+
+              <input id="detailsBtn" type="submit" value="Show Details" onclick="location.href = `/books/${<%= element.id %>}`;" ><br>
           
               
           </div>

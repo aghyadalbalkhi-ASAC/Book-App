@@ -1,31 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../public/styles/style.css">
-    <title>Document</title>
-</head>
+  <%- include('../../layout/head') %>
 <body>
 
-    <header>
-
-        <nav id="navBar">Best Books!</nav>
-        <div id="div_nav">Search By Title or Author</div>
+    <%- include('../../layout/header') %>
     
-    <div id="side-nav">
-            <div id="mySidenav" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a href="#">About</a>
-                <a href="#">Services</a>
-                <a href="#">Clients</a>
-                <a href="#">Contact</a>
-              </div>
-              <span style="font-size:45px;  cursor:pointer; color:white;width: 100px;" onclick="openNav()">&#9776; </span>
-            </div>
-        </header>
-    
- <% booksItems.forEach((element, ind) => { %>
+    <% booksItems.forEach((element, ind) => { %>
    
   <div class="child" id="<%= ind %>"> 
     <img src="<%= element.img %>" alt="">
@@ -34,10 +14,42 @@
     
     <h3><%=  element.author %></h3>
 
+    <p><%= element.isbn %> </p>
     <p><%= element.description %> </p>
 </div>
-<% }); %>
 
+
+<form  action="/books" method="POST">
+  <div class="form_div" style="display: none;">
+    <label  for="title">Book Title:</label><br>
+    <input type="text" id="title" name="title" value="<%=  element.title %>"><br><br>
+
+    <label  for="author">Book author:</label><br>
+    <input type="text" id="author" name="author" value="<%=  element.author %>"><br><br>
+
+    <label  for="isbn">Book isbn:</label><br>
+    <input type="text" id="isbn" name="isbn" value="<%=  element.isbn %>"><br><br>
+
+
+
+    <label   for="image_url">Book Img:</label><br>
+    <input type="text" id="image_url" name="image_url" value="<%= element.img %>"><br><br>
+
+    <label for="descr">Book description:</label><br>
+
+    <textarea  id="descr" name="descr" rows="4" cols="50" >
+        <%= element.description %>
+        </textarea><br><br>
+
+      </div>
+
+        <input  type="submit" value="Add To Collection">
+      </form>
+
+  <% }); %>
+
+<footer>
 <script src="../../../public/styles/js/app.js"></script>
+</footer>
 </body>
 </html>

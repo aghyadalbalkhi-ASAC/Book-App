@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../../layout/head') %>
+<body>
+
+<%- include('../../layout/header') %>
+
+<%- include('details') %>
+<%- include('edit') %>
+
+
+
+
+<form action="/books/<%= singleBook.id %>?_method=DELETE" method="POST">
+    <input value="<%= singleBook.id %>" type="hidden" name="ItemDeleted">
+    <input type="submit" value="DELETE">
+
+    </form>
+
+<script src="../../public/styles/js/app.js"></script>
+</body>
+</html>

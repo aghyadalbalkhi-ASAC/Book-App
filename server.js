@@ -49,7 +49,6 @@ function bookDelete(req, res){
   client.query(statement).then(data =>{
     console.log('item deleted ... ' + itemD );
     res.redirect(`/`);
-   
   }).catch((error) => {
     console.log('error happend when deleteing data...',error);
   });

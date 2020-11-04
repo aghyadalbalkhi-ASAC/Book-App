@@ -6,6 +6,8 @@
 
 <%- include('../../layout/header') %>
 
+
+
 <%- include('details') %>
 <%- include('edit') %>
 
@@ -15,9 +17,10 @@
 <form action="/books/<%= singleBook.id %>?_method=DELETE" method="POST">
     <input value="<%= singleBook.id %>" type="hidden" name="ItemDeleted">
     <input class="deletebtn" type="submit" value="DELETE">
-
     </form>
+    <button class="deletebtn" id='updatebutton'>Update </button>
 
-<script src="../../public/styles/js/app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../../../public/js/app.js"></script>
 </body>
 </html>

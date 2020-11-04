@@ -5,19 +5,22 @@
 
     <%- include('../../layout/header') %>
 
-       <p> Welcome to New Page </p>
-       <form action="/searches" method="POST">
        
-        <!-- <label for="searchBox">Search For Books</label><br><br> -->
-        <input type="text" id="searchBox" name="searchBox"><br>
-        
+       <form id="insertingForm"action="/searches" method="POST">
+       
+  <br><br> 
+        <input type="text" id="searchBox" name="searchBox" placeholder="Enter a title or author"><br>
+        <br>
+     <div class="div_radio">
         <label for="title">By Title</label><br>
         <input type="radio" id="title" name="searchBy" value="title"><br>
-        
+    </div>
+       <br>
+       <div class="div_radio">
         <label for="author">By Author</label><br>
         <input type="radio" id="author" name="searchBy" value="Author"><br>
-
-     
+    </div>
+     <br>
         <input id="searchBtn" type="submit" value="Search the Google Books API"><br>
 
     

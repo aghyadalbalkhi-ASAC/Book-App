@@ -1,3 +1,11 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="../../../public/styles/index.css">
+
+
+<div class="updateForm">
+
 <form  action="/books/<%= singleBook.id %>?_method=PUT" method="POST">
     
   
@@ -22,6 +30,8 @@
         <%= singleBook.descr %>
         </textarea><br><br>
 
-        <input type="submit" value="Update">
+        <input style="width: 30%;" class="save" type="submit" value="Save">
         
       </form>
+
+    </div>

@@ -1,0 +1,92 @@
+
+@media (min-width: 320px) and (max-width: 480px){
+
+.child{
+    
+    margin-top: 40px;
+    background-color:  #D8D8D8;
+    width: 60%;
+     margin-left: 20%; 
+    border: 3px solid rgb(146, 146, 148);
+    height: 300px;
+    margin-bottom: 50px;
+    padding-top: 50px;
+    text-align: center;
+}
+
+#detailsBtn{
+    width: 70%;
+    height: 30px;
+    background-color: black;
+    border: black;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border-collapse: collapse;
+    color: white;
+    font-size: 12px;
+}
+/* 
+#section{
+    background-color:  #D8D8D8;
+    width: 60%;
+     margin-left: 20%; 
+    border: 3px solid rgb(146, 146, 148);
+    height: 300px;
+    margin-bottom: 50px;
+    padding-top: 50px;
+    text-align: center;
+} */
+.discrip{
+    width: 70%;
+    height: 30%;
+    border: 1px solid   rgb(146, 146, 148);
+    margin: 0 auto;
+    overflow: scroll; 
+    background-color: whitesmoke;
+}
+.try{
+    margin-top: 40px;
+    background-color:  #D8D8D8;
+    width: 60%;
+     margin-left: 20%; 
+    border: 3px solid rgb(146, 146, 148);
+    height: 500px;
+    margin-bottom: 50px;
+    padding-top: 50px;
+    text-align: center;
+}
+
+.updateForm{
+    margin: 0 auto;
+    height: 100%;
+    align-items: center;
+    margin-left: 15%;
+   
+
+}
+.updateForm input{
+    width: 80%;
+    height: 30px;
+    margin: 0 auto;
+    
+    
+}
+#descr{
+    width: 80%;
+}
+.save{
+    float: left;
+    background-color: black;
+    color: white;
+}
+
+.deletebtn{
+    float: left;
+    background-color: black;
+    color: white;
+    width: 25%;
+    height: 30px;
+    margin-left: 80px;
+    margin-bottom: 5%;
+}
+}

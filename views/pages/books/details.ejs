@@ -1,15 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="../../../public/styles/index.css">
 
-
-<section>
+<section id="section" >
    
-    <div class="child" id="<%= singleBook.id %>"> 
+    <div class="try" id="<%= singleBook.id %>"> 
       <img src="<%= singleBook.image_url %>" alt="">
-  
+  <br>
       <h2> <%=  singleBook.title %> </h2>
-      
+      <br>
+
       <h3><%=  singleBook.author %></h3>
-  
-      <p><%= singleBook.descr %> </p>
+   <br>
+      <p class="discrip"><%= singleBook.descr %> </p>
+    
+    <br>
       <p><%= singleBook.isbn %> </p>
 
   </div>
